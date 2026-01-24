@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>riley</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+:root{
+  --bg:#120b12;--card:#2a1622;--accent:#b36cff;--text:#f2e9f4;--muted:#c6b3c9;
+  --online:#23a55a;--idle:#f0b232;--dnd:#ed4245;--offline:#747f8d;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at top,#2b1630,var(--bg));
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;color:var(--text)
+}
+.card{
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.card:hover{
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 40px 120px rgba(179,108,255,.25);
+}
+.card{
+  width:380px;background:linear-gradient(180deg,#3a1d2c,var(--card));
+  border-radius:18px;padding:20px;box-shadow:0 30px 80px rgba(0,0,0,.7);
+  position:relative
+}
+.header{display:flex;gap:16px;align-items:center}
+.avatar-wrap{position:relative;width:96px;height:96px}
+.avatar{
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.avatar:hover{
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(179,108,255,.45);
+}
+.avatar{
+  width:96px;height:96px;border-radius:50%;border:4px solid var(--card);z-index:2;position:relative
+}
+.decoration{position:absolute;inset:-12px;pointer-events:none;z-index:3}
+.status-dot{
+  position:absolute;bottom:6px;right:6px;width:18px;height:18px;border-radius:50%;
+  border:3px solid var(--card);background:var(--offline);z-index:4
+}
+.status-glow{filter:drop-shadow(0 0 12px currentColor)}
+.name{font-size:20px;font-weight:700;display:flex;align-items:center;gap:6px}
+.badges img:hover{transform:translateY(-2px) scale(1.1);filter:drop-shadow(0 0 6px var(--accent))}
+.tag img{width:14px;height:14px}
+.about{margin-top:14px;color:var(--muted);font-size:14px}
+.socials{display:flex;gap:10px;margin-top:16px}
+.socials a{
+  flex:1;padding:10px 0;text-align:center;border-radius:12px;
+  background:rgba(255,255,255,.08);color:var(--text);transition:.15s
+}
+.socials a:hover{background:rgba(179,108,255,.25);transform:translateY(-2px)}
+.spotify{
+  transition: transform .2s ease, background .2s ease;
+}
+.spotify:hover{
+  transform: translateY(-2px);
+  background: rgba(179,108,255,.18);
+}
+.spotify{
+  margin-top:18px;background:rgba(0,0,0,.25);border-radius:14px;padding:12px;display:none
+}
+.spotify.active{display:block}
+.spotify-row{display:flex;gap:10px;align-items:center}
+.spotify img{width:48px;height:48px;border-radius:6px}
+.bar{height:4px;background:rgba(255,255,255,.2);border-radius:999px;overflow:hidden;margin-top:6px}
+.bar > div{height:100%;background:#1db954;width:0%}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div class="avatar-wrap">
+      <img class="avatar" id="avatar" />
+      
+      <div class="status-dot" id="statusDot"></div>
+    </div>
+    <div>
+      <div class="name">riley
+        
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="about">avid rain & woman enjoyer</div>
+
+  <div class="socials">
+    <a href="https://open.spotify.com/user/31kcl3foiantv5wvv4cryp2k5pbi" target="_blank"><i class="fa-brands fa-spotify"></i></a>
+    <a href="https://discord.com/users/1142433636822548601" target="_blank"><i class="fa-brands fa-discord"></i></a>
+    <a href="https://www.last.fm/user/meowriley" target="_blank"><i class="fa-brands fa-lastfm"></i></a>
+    <a href="https://tiktok.com/@rileysc" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+  </div>
+
+  <div class="spotify" id="spotify">
+    <div class="spotify-row">
+      <img id="spCover" />
+      <div>
+        <div id="spTitle"></div>
+        <div style="font-size:12px;color:var(--muted)" id="spArtist"></div>
+      </div>
+    </div>
+    <div class="bar"><div id="spBar"></div></div>
+  </div>
+
+  <div class="spotify" id="lastfm">
+    <div class="spotify-row">
+      <img id="lfCover" />
+      <div>
+        <div id="lfTitle"></div>
+        <div style="font-size:12px;color:var(--muted)" id="lfArtist"></div>
+      </div>
+    </div>
+  </div>
+        <div style="font-size:12px;color:var(--muted)" id="lfArtist"></div>
+      </div>
+    </div>
+  </div>
+        <div style="font-size:12px;color:var(--muted)" id="spArtist"></div>
+      </div>
+    </div>
+    <div class="bar"><div id="spBar"></div></div>
+  </div>
+</div>
+
+<script>
+const ID = "1142433636822548601";
+const avatar = document.getElementById('avatar');
+const statusDot = document.getElementById('statusDot');
+const spotify = document.getElementById('spotify');
+const lastfm = document.getElementById('lastfm');
+
+async function update(){
+  const r = await fetch(`https://api.lanyard.rest/v1/users/${ID}`);
+  const d = (await r.json()).data;
+
+  avatar.src = `https://cdn.discordapp.com/avatars/${ID}/${d.discord_user.avatar}.png?size=256`;
+
+  const map = {online:'--online',idle:'--idle',dnd:'--dnd',offline:'--offline'};
+  const s = d.discord_status;
+  statusDot.style.background = `var(${map[s]})`;
+  statusDot.style.color = `var(${map[s]})`;
+  statusDot.classList.toggle('status-glow', s !== 'offline');
+
+  if(d.spotify){
+    spotify.classList.add('active');
+    spCover.src = d.spotify.album_art_url;
+    spTitle.textContent = d.spotify.song;
+    spArtist.textContent = d.spotify.artist;
+    const p = (Date.now() - d.spotify.timestamps.start) /
+              (d.spotify.timestamps.end - d.spotify.timestamps.start) * 100;
+    spBar.style.width = `${Math.min(p,100)}%`;
+  } else spotify.classList.remove('active');
+  if(!d.spotify){
+    const lf = await fetch('https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=meowriley&api_key=3d6ecb8ab9fbf9cd47660eb96b9919b9&format=json&limit=1');
+    const lfData = (await lf.json()).recenttracks.track[0];
+    lastfm.classList.add('active');
+    lfCover.src = lfData.image.pop()['#text'];
+    lfTitle.textContent = lfData.name;
+    lfArtist.textContent = lfData.artist['#text'];
+  } else lastfm.classList.remove('active');
+}
+update();
+setInterval(update, 15000);
+</script>
+</body>
+</html>
