@@ -1,821 +1,428 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>l.esbian.xyz</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>l.esbian.xyz</title>
 
-  <style>
-    :root{
-      --bgA:#fff0f6;
-      --bgB:#ffe3ef;
-      --card:#ffffffcc;
-      --card2:#ffffffa8;
-      --stroke:#ffc2da;
-      --stroke2:#ffd8ea;
-      --text:#3a2b35;
-      --muted:#6c5463;
-      --accent:#ff6fb3;
-      --accent2:#ff9fcd;
-      --shadow: 0 18px 55px rgba(255, 111, 179, .18);
-      --shadow2: 0 10px 30px rgba(0,0,0,.08);
-      --radius: 26px;
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-      --online:#23a55a;
-      --idle:#f0b232;
-      --dnd:#ed4245;
-      --offline:#747f8d;
-    }
+<style>
+:root{
+  --bg:#0a0a0a;
+  --panel:#101010;
+  --panel2:#0d0d0d;
+  --border:#2a2a2a;
+  --text:#e9e9e9;
+  --muted:#a8a8a8;
+  --shadow:0 18px 50px rgba(0,0,0,.65);
+  --w:920px;
+  --t:240ms;
+}
+*{box-sizing:border-box;border-radius:0!important}
+html,body{height:100%}
 
-    *{ box-sizing:border-box; }
-    html, body { height:100%; }
-    body{
-      margin:0;
-      font-family: "Quicksand", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      color: var(--text);
-      overflow-x:hidden;
-      background: radial-gradient(1200px 600px at 30% 10%, var(--bgB), transparent 60%),
-                  radial-gradient(900px 500px at 80% 30%, #fff, transparent 60%),
-                  linear-gradient(180deg, var(--bgA), #ffffff);
-    }
-    .bg{ position:fixed; inset:0; z-index:-2; overflow:hidden; }
-    .bg video{
-      width:100%; height:100%;
-      object-fit:cover;
-      filter:saturate(1.05) contrast(1.02) brightness(1.05);
-      transform:scale(1.03);
-    }
-    .bg::after{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        radial-gradient(900px 600px at 20% 10%, rgba(255,255,255,.65), transparent 60%),
-        radial-gradient(800px 500px at 85% 20%, rgba(255,227,239,.55), transparent 55%),
-        linear-gradient(180deg, rgba(255,240,246,.35), rgba(255,255,255,.15));
-      backdrop-filter: blur(2px);
-    }
+body{
+  margin:0;
+  background:
+    radial-gradient(900px 450px at 50% 0%, #141414 0%, rgba(20,20,20,0) 55%),
+    var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px 14px;
+}
 
-    .sparkles{
-      position:fixed; inset:0;
-      pointer-events:none;
-      z-index:-1;
-      opacity:.75;
-      background:
-        radial-gradient(circle at 12% 18%, rgba(255,255,255,.9) 0 2px, transparent 3px),
-        radial-gradient(circle at 82% 22%, rgba(255,255,255,.85) 0 2px, transparent 3px),
-        radial-gradient(circle at 26% 72%, rgba(255,255,255,.8) 0 1.5px, transparent 3px),
-        radial-gradient(circle at 70% 78%, rgba(255,255,255,.85) 0 2px, transparent 3px),
-        radial-gradient(circle at 52% 36%, rgba(255,255,255,.8) 0 1.5px, transparent 3px);
-      animation: twinkle 3.8s ease-in-out infinite alternate;
-      mix-blend-mode: soft-light;
-    }
-    @keyframes twinkle{
-      from{ filter: blur(0px); transform: translateY(0px); opacity:.55; }
-      to  { filter: blur(.2px); transform: translateY(-6px); opacity:.85; }
-    }
+.shell{
+  width:min(var(--w),100%);
+  border:1px solid var(--border);
+  background:linear-gradient(180deg,var(--panel),var(--panel2));
+  box-shadow:var(--shadow);
+}
 
-    .wrap{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 32px 16px;
-    }
-    .shell{
-      width:min(880px, 100%);
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-      align-items:center;
-    }
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 16px;
+  border-bottom:1px solid var(--border);
+}
 
-    /* Nav */
-    .nav{
-      width:min(720px, 100%);
-      display:flex;
-      gap:8px;
-      justify-content:center;
-      flex-wrap:wrap;
-      padding: 8px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, var(--card), var(--card2));
-      border: 1px solid var(--stroke2);
-      box-shadow: var(--shadow2);
-      backdrop-filter: blur(10px);
-      position: relative;
-    }
+.brand{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  font-weight:650;
+  font-size:14px;
+}
+.brand img{width:18px;height:18px}
 
-    .tab{
-      border: 0;
-      background: transparent;
-      color: var(--muted);
-      padding: 10px 14px;
-      border-radius: 999px;
-      cursor:pointer;
-      font-family: "Baloo 2", "Quicksand", system-ui, sans-serif;
-      font-weight: 800;
-      letter-spacing:.2px;
-      position: relative;
-      z-index: 1;
-      transition: color .18s ease, transform .18s ease;
-      user-select:none;
-    }
-    .tab:hover{ transform: translateY(-1px); color: var(--text); }
+nav{display:flex}
+.tab{
+  border:none;
+  background:none;
+  color:var(--muted);
+  padding:10px 14px;
+  border-left:1px solid var(--border);
+  cursor:pointer;
+  font-size:13px;
+  transition:color var(--t),background var(--t),transform var(--t);
+}
+.tab:hover{color:var(--text);background:rgba(255,255,255,.03);transform:translateY(-1px)}
+.tab.active{color:var(--text);background:rgba(255,255,255,.05)}
 
-    .navPill{
-      position:absolute;
-      top: 8px;
-      height: calc(100% - 16px);
-      border-radius: 999px;
-      background: linear-gradient(180deg, rgba(255,111,179,.22), rgba(255,159,205,.16));
-      border: 1px solid rgba(255,111,179,.22);
-      box-shadow: 0 12px 24px rgba(255,111,179,.14);
-      backdrop-filter: blur(10px);
-      transition: left 0.5s ease, width 0.5s ease;
-      z-index: 0;
-    }
+.content{padding:16px}
+.page{display:none}
+.page.active{display:block;animation:fade .25s ease}
+@keyframes fade{
+  from{opacity:0;transform:translateY(10px);filter:blur(6px)}
+  to{opacity:1;transform:none;filter:none}
+}
 
-    .card{
-      width:min(720px, 100%);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, var(--card), var(--card2));
-      border: 0px solid var(--stroke2);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-      overflow:hidden;
-    }
-    .inner{ padding: 22px; }
+.grid{
+  display:grid;
+  grid-template-columns:290px 1fr;
+  gap:14px;
+}
 
-    .page{
-      display:none;
-      opacity:0;
-      transform: translateY(10px) scale(.985);
-      filter: blur(2px);
-      transition: opacity 10s ease, transform 10s ease, filter .32s ease;
-    }
-    .page.active{
-      display:block;
-      opacity:1;
-      transform: translateY(0) scale(1);
-      filter: blur(0);
-    }
+.card{
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.02);
+  padding:14px;
+  transition:transform var(--t),border-color var(--t);
+}
+.card:hover{transform:translateY(-2px);border-color:#3a3a3a}
 
-    .top{
-      display:flex;
-      gap:16px;
-      align-items:center;
-      justify-content:center;
-      flex-wrap:wrap;
-      text-align:center;
-    }
+h3{margin:0 0 10px;font-size:13px;text-transform:lowercase}
+.muted{color:var(--muted);font-size:12px;line-height:1.7}
 
-    .pfpWrap{
-      position: relative;
-      width: 92px;
-      height: 92px;
-      flex: 0 0 auto;
-    }
-    .pfp{
-      width: 92px;
-      height: 92px;
-      border-radius: 999px;
-      border: 2px solid rgba(255,111,179,.35);
-      box-shadow: 0 16px 28px rgba(255,111,179,.18);
-      overflow:hidden;
-      background: rgba(255,255,255,.6);
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-    .pfp:hover{
-      transform: translateY(-3px) rotate(-1deg);
-      box-shadow: 0 22px 34px rgba(255,111,179,.22);
-    }
-    .pfp img{ width:100%; height:100%; object-fit:cover; display:block; }
+.profileCard img{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  border:1px solid var(--border);
+  margin-bottom:10px;
+}
 
-    .statusDot{
-      position:absolute;
-      right: 4px;
-      bottom: 4px;
-      width: 16px;
-      height: 16px;
-      border-radius: 999px;
-      border: 3px solid rgba(255,255,255,.9);
-      background: var(--offline);
-      box-shadow: 0 10px 18px rgba(0,0,0,.12);
-    }
+.friendGrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:12px;
+}
 
-    .nameRow{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .name{
-      font-family: "Baloo 2", "Quicksand", system-ui, sans-serif;
-      font-size: clamp(26px, 3vw, 34px);
-      margin:0;
-      line-height:1.05;
-      letter-spacing:.2px;
-      background: linear-gradient(90deg, #ff5fa7, #ff9fcd, #ff5fa7);
-      background-size: 200% 100%;
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-      animation: gradientShift 3.5s ease-in-out infinite;
-      text-shadow: 0 10px 24px rgba(255,111,179,.12);
-    }
-    @keyframes gradientShift{
-      0%{ background-position: 0% 50%; }
-      50%{ background-position: 100% 50%; }
-      100%{ background-position: 0% 50%; }
-    }
+.friendCard{
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.02);
+  padding:12px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  transition:transform var(--t),border-color var(--t);
+}
+.friendCard:hover{transform:translateY(-2px);border-color:#3a3a3a}
 
-    .badgeImg{
-      width: 28px;
-      height: 28px;
-      border-radius: 10px;
-      box-shadow: 0 10px 20px rgba(255,111,179,.16);
-      border: 1px solid rgba(255,111,179,.22);
-      background: rgba(255,255,255,.65);
-      padding: 4px;
-      transition: transform .18s ease;
-    }
-    .badgeImg:hover{ transform: translateY(-2px) rotate(2deg); }
+.friendCard img{
+  width:42px;
+  height:42px;
+  border:1px solid var(--border);
+  object-fit:cover;
+}
+.friendName{font-weight:650;font-size:13px}
+.friendPron{font-size:12px;color:var(--muted)}
 
-    .meta{
-      display:flex;
-      gap:10px;
-      justify-content:center;
-      flex-wrap:wrap;
-      margin-top: 8px;
-    }
-    .pill{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.55);
-      border: 1px solid var(--stroke2);
-      color: var(--muted);
-      font-weight: 700;
-      box-shadow: 0 10px 20px rgba(0,0,0,.05);
-      transition: transform .18s ease, background .18s ease, box-shadow .18s ease, border-color .18s ease;
-    }
-    .pill:hover{
-      transform: translateY(-2px);
-      background: rgba(255,255,255,.72);
-      border-color: rgba(255,111,179,.25);
-      box-shadow: 0 16px 26px rgba(255,111,179,.12);
-      color: var(--text);
-    }
+.accountGrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:12px;
+}
 
-    .hr{
-      height:1px;
-      background: linear-gradient(90deg, transparent, rgba(255,111,179,.30), transparent);
-      margin: 18px 0;
-    }
+.acct{
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.02);
+  padding:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  color:inherit;
+  transition:transform var(--t),border-color var(--t);
+}
+.acct:hover{transform:translateY(-2px);border-color:#3a3a3a}
 
-    /* Panels */
-    .grid{
-      display:grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 14px;
-    }
-    @media (max-width: 760px){
-      .grid{ grid-template-columns: 1fr; }
-    }
+.acct img{
+  width:38px;
+  height:38px;
+  border:1px solid var(--border);
+}
 
-    .panel{
-      border-radius: 22px;
-      background: rgba(255,255,255,.55);
-      border: 1px solid var(--stroke2);
-      box-shadow: 0 10px 22px rgba(0,0,0,.06);
-      padding: 16px;
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    }
-    .panel:hover{
-      transform: translateY(-3px);
-      border-color: rgba(255,111,179,.25);
-      box-shadow: 0 18px 30px rgba(255,111,179,.12);
-    }
-    .panel h2{
-      margin:0 0 10px;
-      font-family: "Baloo 2", "Quicksand", system-ui, sans-serif;
-      font-size: 16px;
-      letter-spacing:.3px;
-    }
-    .sub{
-      margin:0;
-      color: var(--muted);
-      line-height:1.55;
-      font-size: 14.5px;
-      font-weight: 600;
-    }
+.socials{display:flex;flex-wrap:wrap;gap:10px}
+.social{
+  border:1px solid var(--border);
+  padding:10px 14px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  text-decoration:none;
+  color:inherit;
+  transition:transform var(--t);
+}
+.social:hover{transform:translateY(-2px)}
 
-    .song{ display:flex; gap: 12px; align-items:center; }
-    .cover{
-      width: 66px; height: 66px;
-      border-radius: 18px;
-      overflow:hidden;
-      border: 1px solid rgba(255,111,179,.22);
-      box-shadow: 0 14px 26px rgba(255,111,179,.14);
-      background: rgba(255,255,255,.7);
-      flex: 0 0 auto;
-      transition: transform .18s ease;
-    }
-    .cover:hover{ transform: translateY(-2px) rotate(-1deg); }
-    .cover img{ width:100%; height:100%; object-fit:cover; display:block; }
+.bioCard{
+  position:relative;
+  min-height:260px;
+  padding-bottom:120px;
+}
 
-    .songText{ display:flex; flex-direction:column; min-width:0; gap:4px; }
-    .songTitle{
-      margin:0;
-      font-weight: 800;
-      font-size: 15px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      display:flex;
-      align-items:center;
-      gap:8px;
-      font-family: "Baloo 2", "Quicksand", system-ui, sans-serif;
-    }
-    .songTitle i{ font-size: 14px; opacity:.85; }
-    .songArtist{
-      margin:0;
-      color: var(--muted);
-      font-size: 13.5px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      font-weight: 650;
-    }
-    .songState{
-      margin-top:6px;
-      font-size: 12.5px;
-      color: var(--muted);
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      align-items:center;
-      font-weight: 650;
-    }
-    .dot{
-      width:8px;height:8px;border-radius:999px;
-      background: rgba(255,111,179,.65);
-      box-shadow: 0 0 0 4px rgba(255,111,179,.12);
-    }
+.nowPlaying{
+  position:absolute;
+  right:14px;
+  bottom:14px;
+  width:min(360px, calc(100% - 28px));
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.015);
+  padding:12px;
+  transition:transform var(--t),border-color var(--t);
+}
+.card:hover .nowPlaying{border-color:#3a3a3a}
 
-    .friends{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top:12px;
-    }
-    @media (max-width: 760px){
-      .friends{ grid-template-columns: 1fr; }
-    }
-    .friend{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      padding: 12px;
-      border-radius: 22px;
-      background: rgba(255,255,255,.55);
-      border: 1px solid var(--stroke2);
-      box-shadow: 0 10px 20px rgba(0,0,0,.05);
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    }
-    .friend:hover{
-      transform: translateY(-3px);
-      border-color: rgba(255,111,179,.25);
-      box-shadow: 0 18px 30px rgba(255,111,179,.12);
-    }
-    .friend img{
-      width: 46px; height:46px;
-      border-radius: 16px;
-      object-fit:cover;
-      border: 1px solid rgba(255,111,179,.22);
-      background: rgba(255,255,255,.7);
-      flex: 0 0 auto;
-    }
-    .friend .who{ min-width:0; display:flex; flex-direction:column; gap:2px; }
-    .friend .who strong{
-      font-size: 14.5px;
-      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-      font-family: "Baloo 2", "Quicksand", system-ui, sans-serif;
-    }
-    .friend .who span{ font-size: 13px; color: var(--muted); font-weight:700; }
+.songRow{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
 
-    .accounts{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-top:12px;
-    }
-    @media (max-width: 760px){
-      .accounts{ grid-template-columns: 1fr; }
-    }
-    .acct{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      padding: 12px;
-      border-radius: 22px;
-      background: rgba(255,255,255,.55);
-      border: 1px solid var(--stroke2);
-      box-shadow: 0 10px 20px rgba(0,0,0,.05);
-      text-decoration:none;
-      color: inherit;
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    }
-    .acct:hover{
-      transform: translateY(-3px);
-      border-color: rgba(255,111,179,.25);
-      box-shadow: 0 18px 30px rgba(255,111,179,.12);
-    }
-    .mcHead{
-      width: 46px; height:46px;
-      border-radius: 16px;
-      overflow:hidden;
-      border: 1px solid rgba(255,111,179,.22);
-      box-shadow: 0 12px 22px rgba(255,111,179,.12);
-      background: rgba(255,255,255,.7);
-      flex:0 0 auto;
-    }
-    .mcHead img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .acct .info{ min-width:0; display:flex; flex-direction:column; gap:2px; }
-    .acct .info strong{
-      font-size:14.5px;
-      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-      font-family: "Baloo 2", "Quicksand", system-ui, sans-serif;
-    }
-    .acct .info span{ color: var(--muted); font-size: 13px; font-weight: 650; }
+.songRow img{
+  width:56px;
+  height:56px;
+  border:1px solid var(--border);
+  object-fit:cover;
+  background:#0c0c0c;
+}
 
-    .socials{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:center;
-      margin-top:12px;
-    }
-    .iconBtn{
-      width: 52px; height: 52px;
-      border-radius: 18px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: rgba(255,255,255,.58);
-      border: 1px solid var(--stroke2);
-      box-shadow: 0 10px 18px rgba(0,0,0,.06);
-      color: var(--text);
-      text-decoration:none;
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .iconBtn:hover{
-      transform: translateY(-3px) scale(1.02);
-      border-color: rgba(255,111,179,.25);
-      box-shadow: 0 18px 30px rgba(255,111,179,.14);
-      background: rgba(255,255,255,.72);
-    }
-    .iconBtn i{ font-size: 20px; opacity:.9; }
-  </style>
+.songMeta{min-width:0;flex:1}
+.songTitle{
+  font-weight:650;
+  font-size:13px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.songArtist{
+  font-size:12px;
+  color:var(--muted);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.songSource{
+  font-size:11px;
+  color:#888;
+  margin-top:2px;
+}
+
+.progressWrap{
+  margin-top:10px;
+  height:8px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.02);
+  overflow:hidden;
+}
+.progressBar{
+  height:100%;
+  width:0%;
+  background:rgba(233,233,233,.85);
+  transition:width 420ms ease;
+}
+
+@media(max-width:850px){
+  .grid{grid-template-columns:1fr}
+  .bioCard{min-height:unset;padding-bottom:14px}
+  .nowPlaying{position:static;width:100%;margin-top:14px}
+}
+</style>
 </head>
-
 <body>
-  <div class="bg" aria-hidden="true">
-    <video autoplay muted loop playsinline preload="auto">
-      <source src="assets/background.mp4" type="video/mp4" />
-    </video>
+
+<div class="shell">
+  <div class="topbar">
+    <div class="brand">
+      <i class="fa-solid fa-heart" style="color:#ffcaf2"></i> riley 
+    </div>
+    <nav>
+      <button class="tab active" data-p="bio">about</button>
+      <button class="tab" data-p="friends">friends</button>
+      <button class="tab" data-p="accounts">accounts</button>
+      <button class="tab" data-p="social">contact</button>
+    </nav>
   </div>
-  <div class="sparkles" aria-hidden="true"></div>
 
-  <main class="wrap">
-    <div class="shell">
+  <div class="content">
+    <section class="page active" id="bio">
+      <div class="grid">
+        <div class="card profileCard">
+          <h3>profile</h3>
+          <img id="pfp" alt="">
+          <div class="friendName">riley</div>
+          <div class="friendPron">she/her</div>
+        </div>
 
-      <nav class="nav" aria-label="Pages" id="nav">
-        <div class="navPill" id="navPill" aria-hidden="true"></div>
-        <button class="tab" data-page="bio" aria-current="page">biography</button>
-        <button class="tab" data-page="friends">friends</button>
-        <button class="tab" data-page="accounts">accounts</button>
-        <button class="tab" data-page="social">social</button>
-      </nav>
+        <div class="card bioCard">
+          <h3>biography</h3>
+          <p class="muted">
+            hi! my name's riley, i'm a 15 year old trans-girl from the United Kingdom! i like messing around with computers and love Pokemon! i'm also really into music, you can see what song i'm listening too below. feel free to check out my socials and friends pages to get to know me better!
+          </p>
 
-      <section class="card">
-        <div class="inner">
-
-          <div class="top">
-            <div class="pfpWrap" title="Discord avatar + status">
-              <div class="pfp">
-                <img id="pfp" alt="Profile picture" src="https://i.scdn.co/image/ab67616d0000b273cad190f1a73c024e5a40dddd" />
-              </div>
-              <div class="statusDot" id="statusDot" aria-label="status"></div>
-            </div>
-
-            <div>
-              <div class="nameRow">
-                <h1 class="name" id="displayName">riley</h1>
-              </div>
-
-              <div class="meta">
-                <div class="pill" title="pronouns">
-                  <i class="fa-solid fa-heart"></i>
-                  <span>she/her</span>
-                </div>
+          <div class="nowPlaying">
+            <div class="songRow">
+              <img id="cover" alt="">
+              <div class="songMeta">
+                <div class="songTitle" id="songTitle">loading…</div>
+                <div class="songArtist" id="songArtist">—</div>
+                <div class="songSource" id="songSource">—</div>
               </div>
             </div>
-          </div>
-
-          <div class="hr"></div>
-
-          <div id="bio" class="page active">
-            <div class="grid">
-              <div class="panel">
-                <h2>about me</h2>
-                <p class="sub" id="bioText">
-                  hi! my name's riley, i'm a 15 year old trans-girl from the United Kingdom!
-                  i like messing around with computers and love Pokemon!
-                </p>
-              </div>
-
-              <div class="panel">
-                <h2>now playing</h2>
-                <div class="song" style="margin-top:6px;">
-                  <div class="cover">
-                    <img id="cover" alt="Song cover" src="https://i.scdn.co/image/ab67616d0000b273cad190f1a73c024e5a40dddd" />
-                  </div>
-                  <div class="songText">
-                    <p class="songTitle" id="songTitle">
-                      <i class="fa-solid fa-music"></i>
-                      <span>loading…</span>
-                    </p>
-                    <p class="songArtist" id="songArtist">—</p>
-                    <div class="songState">
-                      <span class="dot" aria-hidden="true"></span>
-                      <span id="songStateText">loading…</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div id="friends" class="page">
-            <div class="panel">
-              <h2>friends</h2>
-
-              <div class="friends">
-                <div class="friend">
-                  <img alt="Saph avatar" src="friends/saph.png" />
-                  <div class="who">
-                    <strong>Saph</strong>
-                    <span>she/they</span>
-                  </div>
-                </div>
-                <div class="friend">
-                  <img alt="Tara avatar" src="friends/tara.png" />
-                  <div class="who">
-                    <strong>Tara</strong>
-                    <span>she/her</span>
-                  </div>
-                </div>
-                <div class="friend">
-                  <img alt="Reagan avatar" src="friends/reagan.png" />
-                  <div class="who">
-                    <strong>Reagan</strong>
-                    <span>she/her</span>
-                  </div>
-                </div>
-                <div class="friend">
-                  <img alt="zoizox avatar" src="friends/zoizox.png" />
-                  <div class="who">
-                    <strong>zoizox</strong>
-                    <span>he/him</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div id="accounts" class="page">
-            <div class="panel">
-              <h2>accounts</h2>
-              <div class="accounts" id="accountsGrid"></div>
-            </div>
-          </div>
-
-          <div id="social" class="page">
-            <div class="panel">
-              <h2>socials</h2>
-
-              <div class="socials">
-                <a class="iconBtn" href="https://open.spotify.com/user/31kcl3foiantv5wvv4cryp2k5pbi?si=aO5QbfsDQjOYpQeTZ1e0fg" target="_blank" rel="noreferrer" title="Spotify">
-                  <i class="fa-brands fa-spotify"></i>
-                </a>
-                <a class="iconBtn" href="https://discord.com/users/1142433636822548601" target="_blank" rel="noreferrer" title="Discord">
-                  <i class="fa-brands fa-discord"></i>
-                </a>
-                <a class="iconBtn" href="https://youtube.com/@2riley" target="_blank" rel="noreferrer" title="YouTube">
-                  <i class="fa-brands fa-youtube"></i>
-                </a>
-                <a class="iconBtn" href="https://tiktok.com/@rileysc" target="_blank" rel="noreferrer" title="TikTok">
-                  <i class="fa-brands fa-tiktok"></i>
-                </a>
-                <a class="iconBtn" href="https://github.com/7riley" target="_blank" rel="noreferrer" title="GitHub">
-                  <i class="fa-brands fa-github"></i>
-                </a>
-              </div>
+            <div class="progressWrap" aria-label="song progress">
+              <div class="progressBar" id="progressBar"></div>
             </div>
           </div>
 
         </div>
-    </div>
-  </main>
+      </div>
+    </section>
 
-  <script>
-    const DISCORD_ID = "1142433636822548601";
-    const LASTFM_USER = "meowriley";
-    const LASTFM_API_KEY = "7f1b88cc50577aae53363f82cd7aebdb";
+    <section class="page" id="friends">
+      <div class="friendGrid">
+        <div class="friendCard"><img src="friends/saph.png" alt=""><div><div class="friendName">Saph</div><div class="friendPron">she/they</div></div></div>
+        <div class="friendCard"><img src="friends/tara.png" alt=""><div><div class="friendName">Tara</div><div class="friendPron">she/her</div></div></div>
+        <div class="friendCard"><img src="friends/reagan.png" alt=""><div><div class="friendName">Reagan</div><div class="friendPron">she/her</div></div></div>
+        <div class="friendCard"><img src="friends/zunami.png" alt=""><div><div class="friendName">Zunami</div><div class="friendPron">—</div></div></div>
 
-    const mcUsers = [
-      "9om","prettydeadgirl","rcmix","Agonism","2riley",
-    ];
+        <div class="friendCard"><img src="friends/zoizox.png" alt=""><div><div class="friendName">Zoizox</div><div class="friendPron">he/him</div></div></div>
+        <div class="friendCard"><img src="friends/cleo.png" alt=""><div><div class="friendName">Cleo</div><div class="friendPron">she/her</div></div></div>
+        <div class="friendCard"><img src="friends/bladed.png" alt=""><div><div class="friendName">Bladed</div><div class="friendPron">he/him</div></div></div>
+        <div class="friendCard"><img src="friends/accursedfir.png" alt=""><div><div class="friendName">AccursedFir</div><div class="friendPron">—</div></div></div>
+      </div>
+    </section>
 
-    const $ = (id) => document.getElementById(id);
-    function setText(el, text){ if(el) el.textContent = text; }
+    <section class="page" id="accounts">
+      <div class="accountGrid" id="accountsGrid"></div>
+    </section>
 
-    function discordAvatarURL(user){
-      const id = user?.id || DISCORD_ID;
-      const avatar = user?.avatar;
-      if(avatar) return `https://cdn.discordapp.com/avatars/${id}/${avatar}.png?size=256`;
-      const disc = Number(user?.discriminator || 0) % 5;
-      return `https://cdn.discordapp.com/embed/avatars/${disc}.png`;
+    <section class="page" id="social">
+      <div class="socials">
+        <a class="social" href="https://open.spotify.com/user/31kcl3foiantv5wvv4cryp2k5pbi" target="_blank" rel="noreferrer"><i class="fa-brands fa-spotify"></i>spotify</a>
+        <a class="social" href="https://discord.com/users/1142433636822548601" target="_blank" rel="noreferrer"><i class="fa-brands fa-discord"></i>discord</a>
+        <a class="social" href="https://youtube.com/@2riley" target="_blank" rel="noreferrer"><i class="fa-brands fa-youtube"></i>youtube</a>
+        <a class="social" href="https://tiktok.com/@rileysc" target="_blank" rel="noreferrer"><i class="fa-brands fa-tiktok"></i>tiktok</a>
+        <a class="social" href="https://github.com/7riley" target="_blank" rel="noreferrer"><i class="fa-brands fa-github"></i>github</a>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+const DISCORD_ID="1142433636822548601";
+const LASTFM_USER="meowriley";
+const LASTFM_API_KEY="7f1b88cc50577aae53363f82cd7aebdb";
+const MC_USERS=["9om","prettydeadgirl","rcmix","2riley","Agonism","TwistedIdeals"];
+
+let npState={active:false,start:0,end:0};
+
+document.querySelectorAll(".tab").forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    t.classList.add("active");
+    document.getElementById(t.dataset.p).classList.add("active");
+  };
+});
+
+const accountsGrid=document.getElementById("accountsGrid");
+MC_USERS.forEach(u=>{
+  const a=document.createElement("a");
+  a.className="acct";
+  a.href=`https://namemc.com/profile/${encodeURIComponent(u)}`;
+  a.target="_blank";
+  a.rel="noreferrer";
+  a.innerHTML=`<img src="https://mc-heads.net/head/${encodeURIComponent(u)}/64" alt=""><div>${u}</div>`;
+  accountsGrid.appendChild(a);
+});
+
+function setSong(title,artist,cover,source){
+  document.getElementById("songTitle").textContent=title||"nothing playing";
+  document.getElementById("songArtist").textContent=artist||"—";
+  document.getElementById("cover").src=cover||"";
+  document.getElementById("songSource").textContent=source||"—";
+}
+
+async function fetchLanyard(){
+  const r=await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`,{cache:"no-store"});
+  if(!r.ok) throw new Error("lanyard");
+  const j=await r.json();
+  return j.data;
+}
+
+async function fetchLastfm(){
+  const url=`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(LASTFM_USER)}&api_key=${encodeURIComponent(LASTFM_API_KEY)}&format=json&limit=1`;
+  const r=await fetch(url,{cache:"no-store"});
+  if(!r.ok) throw new Error("lastfm");
+  const j=await r.json();
+  const t=j?.recenttracks?.track?.[0];
+  if(!t) throw new Error("no track");
+  const img=(t.image||[]).slice().reverse().find(x=>x["#text"])?.["#text"]||"";
+  const now=!!t?.["@attr"]?.nowplaying;
+  return {title:t.name,artist:t.artist?.["#text"]||"Unknown",cover:img,now};
+}
+
+async function refresh(){
+  try{
+    const d=await fetchLanyard();
+    const av=d?.discord_user?.avatar;
+    document.getElementById("pfp").src=av
+      ? `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${av}.png?size=512`
+      : `https://cdn.discordapp.com/embed/avatars/0.png`;
+
+    if(d?.spotify){
+      const sp=d.spotify;
+      setSong(sp.song,sp.artist,sp.album_art_url,"now playing");
+      npState.active=true;
+      npState.start=d.spotify.timestamps?.start || 0;
+      npState.end=d.spotify.timestamps?.end || 0;
+      return;
     }
 
-    function setStatusDot(status){
-      const dot = $("statusDot");
-      const map = { online:"var(--online)", idle:"var(--idle)", dnd:"var(--dnd)", offline:"var(--offline)" };
-      dot.style.background = map[status] || "var(--offline)";
-    }
+    const lf=await fetchLastfm();
+    setSong(lf.title,lf.artist,lf.cover, lf.now ? "now playing" : "recently listened too");
+    npState.active=false;
+    npState.start=0;
+    npState.end=0;
+  }catch{
+    setSong("status unavailable","—","", "—");
+    npState.active=false;
+    npState.start=0;
+    npState.end=0;
+  }
+}
 
-    function lanyardSocket(userId){
-      const ws = new WebSocket("wss://api.lanyard.rest/socket");
-      ws.addEventListener("open", () => ws.send(JSON.stringify({ op: 2, d: { subscribe_to_id: userId } })));
-      ws.addEventListener("message", (ev) => {
-        try{
-          const msg = JSON.parse(ev.data);
-          if(msg.op === 1 && msg.d?.heartbeat_interval){
-            setInterval(() => ws.send(JSON.stringify({ op: 3 })), msg.d.heartbeat_interval);
-          }
-          if(msg.t === "INIT_STATE" || msg.t === "PRESENCE_UPDATE"){
-            const data = msg.d;
-            if(data?.discord_user) renderPresence(data);
-          }
-        }catch{}
-      });
-      ws.addEventListener("close", () => setTimeout(() => lanyardSocket(userId), 1500));
-    }
+function tickProgress(){
+  const bar=document.getElementById("progressBar");
+  if(!npState.active || !npState.start || !npState.end || npState.end<=npState.start){
+    bar.style.width="0%";
+    return;
+  }
+  const now=Date.now();
+  const pct=Math.max(0,Math.min(1,(now-npState.start)/(npState.end-npState.start)));
+  bar.style.width=(pct*100).toFixed(2)+"%";
+}
 
-    function getSpotifyActivity(activities){
-      if(!Array.isArray(activities)) return null;
-      return activities.find(a => (a?.name || "").toLowerCase() === "spotify") || null;
-    }
+refresh();
+setInterval(refresh,15000);
+tickProgress();
+setInterval(tickProgress,1000);
+</script>
 
-    function renderPresence(p){
-      $("pfp").src = discordAvatarURL(p.discord_user);
-      setText($("displayName"), p.discord_user?.display_name || p.discord_user?.username || "riley");
-
-      const st = p.discord_status || "offline";
-      setStatusDot(st);
-
-      if(p.spotify){
-        const s = p.spotify;
-        const title = s.song || "Unknown song";
-        const artist = s.artist || "Unknown artist";
-        const cover = s.album_art_url || "";
-        if(cover) $("cover").src = cover;
-
-        $("songTitle").querySelector("span").textContent = title;
-        setText($("songArtist"), artist);
-        setText($("songStateText"), "listening");
-        return;
-      }
-
-      const spotAct = getSpotifyActivity(p.activities);
-      if(spotAct && spotAct.details){
-        $("songTitle").querySelector("span").textContent = spotAct.details || "Unknown song";
-        setText($("songArtist"), spotAct.state || "Unknown artist");
-        setText($("songStateText"), "listening");
-        return;
-      }
-
-      lastfmFallback();
-    }
-
-    async function lastfmFallback(){
-      if(!LASTFM_USER || !LASTFM_API_KEY){
-        $("songTitle").querySelector("span").textContent = "not listening";
-        setText($("songArtist"), "—");
-        setText($("songStateText"), "");
-        return;
-      }
-      try{
-        const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(LASTFM_USER)}&api_key=${encodeURIComponent(LASTFM_API_KEY)}&format=json&limit=1`;
-        const res = await fetch(url);
-        const json = await res.json();
-        const t = json?.recenttracks?.track?.[0];
-        const title = t?.name || "Unknown song";
-        const artist = t?.artist?.["#text"] || "Unknown artist";
-        const img = t?.image?.slice?.(-1)?.[0]?.["#text"] || "";
-        if(img) $("cover").src = img;
-
-        $("songTitle").querySelector("span").textContent = title;
-        setText($("songArtist"), artist);
-        setText($("songStateText"), "recent");
-      }catch{
-        $("songTitle").querySelector("span").textContent = "not listening";
-        setText($("songArtist"), "—");
-        setText($("songStateText"), "");
-      }
-    }
-
-    // Pages + smooth nav selection pill
-    const tabs = Array.from(document.querySelectorAll(".tab"));
-    const pages = Array.from(document.querySelectorAll(".page"));
-    const navPill = $("navPill");
-
-    function movePillTo(btn){
-      const nav = $("nav");
-      const nb = nav.getBoundingClientRect();
-      const b = btn.getBoundingClientRect();
-      navPill.style.left = (b.left - nb.left) + "px";
-      navPill.style.width = b.width + "px";
-    }
-
-    function showPage(id){
-      const btn = tabs.find(t => t.dataset.page === id);
-      tabs.forEach(t => t.setAttribute("aria-current", t.dataset.page === id ? "page" : "false"));
-      pages.forEach(p => p.classList.toggle("active", p.id === id));
-      if(btn) movePillTo(btn);
-    }
-
-    tabs.forEach(t => t.addEventListener("click", () => showPage(t.dataset.page)));
-
-    window.addEventListener("resize", () => {
-      const current = tabs.find(t => t.getAttribute("aria-current") === "page") || tabs[0];
-      movePillTo(current);
-    });
-
-    // Minecraft accounts
-    function renderAccounts(){
-      const grid = $("accountsGrid");
-      grid.innerHTML = "";
-      mcUsers.forEach((u) => {
-        const a = document.createElement("a");
-        a.className = "acct";
-        a.href = `https://namemc.com/profile/${encodeURIComponent(u)}`;
-        a.target = "_blank";
-        a.rel = "noreferrer";
-
-        const head = document.createElement("div");
-        head.className = "mcHead";
-        const img = document.createElement("img");
-        img.alt = `${u} head`;
-        img.src = `https://mc-heads.net/avatar/${encodeURIComponent(u)}/64`;
-        head.appendChild(img);
-
-        const info = document.createElement("div");
-        info.className = "info";
-        const strong = document.createElement("strong");
-        strong.textContent = u;
-        const span = document.createElement("span");
-        span.textContent = "Minecraft Account";
-        info.appendChild(strong);
-        info.appendChild(span);
-
-        a.appendChild(head);
-        a.appendChild(info);
-        grid.appendChild(a);
-      });
-    }
-
-    renderAccounts();
-    requestAnimationFrame(() => movePillTo(tabs[0]));
-    lanyardSocket(DISCORD_ID);
-    (async () => {
-      try{
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
-        const json = await res.json();
-        if(json?.data) renderPresence(json.data);
-      }catch{
-        setStatusDot("offline");
-        lastfmFallback();
-      }
-    })();
-  </script>
 </body>
 </html>
