@@ -2,428 +2,387 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>l.esbian.xyz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>profile</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
 :root{
-  --bg:#0a0a0a;
-  --panel:#101010;
-  --panel2:#0d0d0d;
-  --border:#2a2a2a;
-  --text:#e9e9e9;
-  --muted:#a8a8a8;
-  --shadow:0 18px 50px rgba(0,0,0,.65);
-  --w:920px;
-  --t:240ms;
+  --bg:#070707;
+  --border:rgba(255,255,255,.08);
+  --text:#f1f1f1;
+  --muted:rgba(255,255,255,.78);
 }
-*{box-sizing:border-box;border-radius:0!important}
+
+*{box-sizing:border-box}
 html,body{height:100%}
 
 body{
   margin:0;
-  background:
-    radial-gradient(900px 450px at 50% 0%, #141414 0%, rgba(20,20,20,0) 55%),
-    var(--bg);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto;
   color:var(--text);
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:24px 14px;
-}
-
-.shell{
-  width:min(var(--w),100%);
-  border:1px solid var(--border);
-  background:linear-gradient(180deg,var(--panel),var(--panel2));
-  box-shadow:var(--shadow);
-}
-
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px 16px;
-  border-bottom:1px solid var(--border);
-}
-
-.brand{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  font-weight:650;
-  font-size:14px;
-}
-.brand img{width:18px;height:18px}
-
-nav{display:flex}
-.tab{
-  border:none;
-  background:none;
-  color:var(--muted);
-  padding:10px 14px;
-  border-left:1px solid var(--border);
-  cursor:pointer;
-  font-size:13px;
-  transition:color var(--t),background var(--t),transform var(--t);
-}
-.tab:hover{color:var(--text);background:rgba(255,255,255,.03);transform:translateY(-1px)}
-.tab.active{color:var(--text);background:rgba(255,255,255,.05)}
-
-.content{padding:16px}
-.page{display:none}
-.page.active{display:block;animation:fade .25s ease}
-@keyframes fade{
-  from{opacity:0;transform:translateY(10px);filter:blur(6px)}
-  to{opacity:1;transform:none;filter:none}
-}
-
-.grid{
+  background:
+    radial-gradient(1000px 500px at 50% -10%, rgba(255,255,255,.06), transparent 55%),
+    #070707;
   display:grid;
-  grid-template-columns:290px 1fr;
-  gap:14px;
+  place-items:center;
 }
+
+.enter-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:grid;
+  place-items:center;
+  z-index:9999;
+  cursor:pointer;
+  transition:opacity 420ms ease;
+}
+.enter-text{
+  padding:10px 18px;
+  font-weight:800;
+  border-radius:14px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.12);
+  color:#fff;
+  text-shadow:0 0 8px rgba(255,255,255,.35);
+  animation:breathe 2.6s ease-in-out infinite;
+}
+@keyframes breathe{0%,100%{opacity:.8}50%{opacity:1}}
+.enter-overlay.exit{opacity:0;pointer-events:none}
 
 .card{
+  width:620px;
+  max-width:92vw;
+  padding:54px 22px 22px;
+  border-radius:18px;
+  background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015));
   border:1px solid var(--border);
-  background:rgba(255,255,255,.02);
-  padding:14px;
-  transition:transform var(--t),border-color var(--t);
-}
-.card:hover{transform:translateY(-2px);border-color:#3a3a3a}
-
-h3{margin:0 0 10px;font-size:13px;text-transform:lowercase}
-.muted{color:var(--muted);font-size:12px;line-height:1.7}
-
-.profileCard img{
-  width:100%;
-  aspect-ratio:1/1;
-  object-fit:cover;
-  border:1px solid var(--border);
-  margin-bottom:10px;
-}
-
-.friendGrid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-  gap:12px;
-}
-
-.friendCard{
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.02);
-  padding:12px;
-  display:flex;
-  gap:10px;
-  align-items:center;
-  transition:transform var(--t),border-color var(--t);
-}
-.friendCard:hover{transform:translateY(-2px);border-color:#3a3a3a}
-
-.friendCard img{
-  width:42px;
-  height:42px;
-  border:1px solid var(--border);
-  object-fit:cover;
-}
-.friendName{font-weight:650;font-size:13px}
-.friendPron{font-size:12px;color:var(--muted)}
-
-.accountGrid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:12px;
-}
-
-.acct{
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.02);
-  padding:12px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  text-decoration:none;
-  color:inherit;
-  transition:transform var(--t),border-color var(--t);
-}
-.acct:hover{transform:translateY(-2px);border-color:#3a3a3a}
-
-.acct img{
-  width:38px;
-  height:38px;
-  border:1px solid var(--border);
-}
-
-.socials{display:flex;flex-wrap:wrap;gap:10px}
-.social{
-  border:1px solid var(--border);
-  padding:10px 14px;
-  display:flex;
-  gap:10px;
-  align-items:center;
-  text-decoration:none;
-  color:inherit;
-  transition:transform var(--t);
-}
-.social:hover{transform:translateY(-2px)}
-
-.bioCard{
+  box-shadow:0 22px 55px rgba(0,0,0,.6);
   position:relative;
-  min-height:260px;
-  padding-bottom:120px;
+  transition:transform 260ms ease, box-shadow 260ms ease;
+}
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 20px 55px rgba(0,0,0,.55);
 }
 
-.nowPlaying{
+.topStats{
   position:absolute;
-  right:14px;
-  bottom:14px;
-  width:min(360px, calc(100% - 28px));
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.015);
-  padding:12px;
-  transition:transform var(--t),border-color var(--t);
+  top:14px;
+  right:16px;
+  display:flex;
+  gap:10px;
+  font-weight:700;
+  font-size:14px;
+  opacity:.85;
 }
-.card:hover .nowPlaying{border-color:#3a3a3a}
+.topStats .sep{
+  width:1px;
+  background:rgba(255,255,255,.18);
+}
 
-.songRow{
+.pfp{
+  position:absolute;
+  top:14px;
+  left:50%;
+  transform:translateX(-50%);
+  width:86px;
+  height:86px;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 18px 50px rgba(0,0,0,.65);
+}
+.pfp img{width:100%;height:100%;object-fit:cover}
+
+.center{
+  margin-top:56px;
+  text-align:center;
+}
+.name{
+  font-size:34px;
+  font-weight:850;
+  text-shadow:0 0 14px rgba(255,255,255,.25);
+}
+.bio{
+  margin-top:8px;
+  font-weight:700;
+  color:var(--muted);
+}
+.caret{
+  border-right:2px solid rgba(255,255,255,.7);
+  margin-left:2px;
+  animation:blink .9s steps(1) infinite;
+}
+@keyframes blink{50%{opacity:0}}
+
+.icons{
+  margin-top:18px;
+  display:flex;
+  justify-content:center;
+  gap:14px;
+}
+.icon{
+  width:44px;height:44px;
+  display:grid;place-items:center;
+  border-radius:14px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  color:#fff;
+  transition:transform .2s ease, box-shadow .2s ease;
+  text-decoration:none;
+}
+.icon:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 18px rgba(255,255,255,.3);
+}
+
+.player{
+  margin-top:18px;
+  padding:14px;
+  border-radius:14px;
+  background:rgba(0,0,0,.25);
+  border:1px solid rgba(255,255,255,.06);
   display:flex;
   gap:12px;
   align-items:center;
 }
-
-.songRow img{
-  width:56px;
-  height:56px;
-  border:1px solid var(--border);
-  object-fit:cover;
-  background:#0c0c0c;
+.cover{
+  width:52px;height:52px;
+  border-radius:12px;
+  overflow:hidden;
+  flex:0 0 auto;
 }
-
-.songMeta{min-width:0;flex:1}
-.songTitle{
-  font-weight:650;
+.cover img{width:100%;height:100%;object-fit:cover}
+.track{
+  font-weight:800;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  margin-bottom:8px;
+}
+.bar{
+  display:flex;
+  align-items:center;
+  gap:8px;
   font-size:13px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.songArtist{
-  font-size:12px;
-  color:var(--muted);
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.songSource{
-  font-size:11px;
-  color:#888;
-  margin-top:2px;
+  opacity:.7;
 }
 
-.progressWrap{
-  margin-top:10px;
-  height:8px;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.02);
-  overflow:hidden;
+input[type=range]{
+  width:100%;
+  -webkit-appearance:none;
+  appearance:none;
+  height:3px;
+  background:#000;
+  border-radius:999px;
+  outline:none;
 }
-.progressBar{
-  height:100%;
-  width:0%;
-  background:rgba(233,233,233,.85);
-  transition:width 420ms ease;
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:10px;height:10px;
+  border-radius:50%;
+  background:#000;
+  cursor:pointer;
+}
+input[type=range]::-moz-range-thumb{
+  width:10px;height:10px;
+  border-radius:50%;
+  background:#000;
+  cursor:pointer;
 }
 
-@media(max-width:850px){
-  .grid{grid-template-columns:1fr}
-  .bioCard{min-height:unset;padding-bottom:14px}
-  .nowPlaying{position:static;width:100%;margin-top:14px}
+.btn{
+  background:none;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;
+  color:#fff;
+  width:32px;height:32px;
+  cursor:pointer;
 }
+.btn:active{transform:scale(.97)}
 </style>
 </head>
+
 <body>
 
-<div class="shell">
-  <div class="topbar">
-    <div class="brand">
-      <i class="fa-solid fa-heart" style="color:#ffcaf2"></i> riley 
-    </div>
-    <nav>
-      <button class="tab active" data-p="bio">about</button>
-      <button class="tab" data-p="friends">friends</button>
-      <button class="tab" data-p="accounts">accounts</button>
-      <button class="tab" data-p="social">contact</button>
-    </nav>
+<div class="enter-overlay" id="enter"><div class="enter-text">[ click ]</div></div>
+
+<div class="card">
+  <div class="topStats">
+    <div><i class="fa-regular fa-clock"></i> <span id="utc">00:00:00</span></div>
+    <div class="sep"></div>
+    <div><i class="fa-solid fa-location-dot"></i> England, UK</div>
   </div>
 
-  <div class="content">
-    <section class="page active" id="bio">
-      <div class="grid">
-        <div class="card profileCard">
-          <h3>profile</h3>
-          <img id="pfp" alt="">
-          <div class="friendName">riley</div>
-          <div class="friendPron">she/her</div>
-        </div>
+  <div class="pfp">
+    <img id="pfpImg" src="avatar.jpg" alt="pfp" onerror="this.src='https://picsum.photos/256?blur=2'">
+  </div>
 
-        <div class="card bioCard">
-          <h3>biography</h3>
-          <p class="muted">
-            hi! my name's riley, i'm a 15 year old trans-girl from the United Kingdom! i like messing around with computers and love Pokemon! i'm also really into music, you can see what song i'm listening too below. feel free to check out my socials and friends pages to get to know me better!
-          </p>
+  <div class="center">
+    <div class="name" id="name">riley</div>
+    <div class="bio"><span id="type"></span><span class="caret"></span></div>
 
-          <div class="nowPlaying">
-            <div class="songRow">
-              <img id="cover" alt="">
-              <div class="songMeta">
-                <div class="songTitle" id="songTitle">loading…</div>
-                <div class="songArtist" id="songArtist">—</div>
-                <div class="songSource" id="songSource">—</div>
-              </div>
-            </div>
-            <div class="progressWrap" aria-label="song progress">
-              <div class="progressBar" id="progressBar"></div>
-            </div>
-          </div>
+    <div class="icons">
+      <a class="icon" href="https://discord.com/users/1142433636822548601" target="_blank" rel="noreferrer"><i class="fa-brands fa-discord"></i></a>
+      <a class="icon" href="https://github.com/7riley" target="_blank" rel="noreferrer"><i class="fa-brands fa-github"></i></a>
+      <a class="icon" href="https://tiktok.com/@rileysc" target="_blank" rel="noreferrer"><i class="fa-brands fa-tiktok"></i></a>
+    </div>
 
+    <div class="player">
+      <div class="cover">
+        <img id="coverImg" src="Till I Die.png" alt="cover">
+      </div>
+
+      <div style="flex:1; min-width:0">
+        <div class="track" id="trackTitle">Till I Die - Ken Carson</div>
+        <div class="bar">
+          <span id="cur">0:00</span>
+          <input id="seek" type="range" min="0" max="1000" value="0">
+          <span id="dur">0:00</span>
         </div>
       </div>
-    </section>
 
-    <section class="page" id="friends">
-      <div class="friendGrid">
-        <div class="friendCard"><img src="friends/saph.png" alt=""><div><div class="friendName">Saph</div><div class="friendPron">she/they</div></div></div>
-        <div class="friendCard"><img src="friends/tara.png" alt=""><div><div class="friendName">Tara</div><div class="friendPron">she/her</div></div></div>
-        <div class="friendCard"><img src="friends/reagan.png" alt=""><div><div class="friendName">Reagan</div><div class="friendPron">she/her</div></div></div>
-        <div class="friendCard"><img src="friends/zunami.png" alt=""><div><div class="friendName">Zunami</div><div class="friendPron">—</div></div></div>
+      <button class="btn" id="prev"><i class="fa-solid fa-backward-step"></i></button>
+      <button class="btn" id="play"><i class="fa-solid fa-play"></i></button>
+      <button class="btn" id="next"><i class="fa-solid fa-forward-step"></i></button>
+    </div>
 
-        <div class="friendCard"><img src="friends/zoizox.png" alt=""><div><div class="friendName">Zoizox</div><div class="friendPron">he/him</div></div></div>
-        <div class="friendCard"><img src="friends/cleo.png" alt=""><div><div class="friendName">Cleo</div><div class="friendPron">she/her</div></div></div>
-        <div class="friendCard"><img src="friends/bladed.png" alt=""><div><div class="friendName">Bladed</div><div class="friendPron">he/him</div></div></div>
-        <div class="friendCard"><img src="friends/accursedfir.png" alt=""><div><div class="friendName">AccursedFir</div><div class="friendPron">—</div></div></div>
-      </div>
-    </section>
-
-    <section class="page" id="accounts">
-      <div class="accountGrid" id="accountsGrid"></div>
-    </section>
-
-    <section class="page" id="social">
-      <div class="socials">
-        <a class="social" href="https://open.spotify.com/user/31kcl3foiantv5wvv4cryp2k5pbi" target="_blank" rel="noreferrer"><i class="fa-brands fa-spotify"></i>spotify</a>
-        <a class="social" href="https://discord.com/users/1142433636822548601" target="_blank" rel="noreferrer"><i class="fa-brands fa-discord"></i>discord</a>
-        <a class="social" href="https://youtube.com/@2riley" target="_blank" rel="noreferrer"><i class="fa-brands fa-youtube"></i>youtube</a>
-        <a class="social" href="https://tiktok.com/@rileysc" target="_blank" rel="noreferrer"><i class="fa-brands fa-tiktok"></i>tiktok</a>
-        <a class="social" href="https://github.com/7riley" target="_blank" rel="noreferrer"><i class="fa-brands fa-github"></i>github</a>
-        <a class="social" href="https://share.upscrolled.com/en/user/a2123d79-59de-4a4f-91c9-dc5d7e619cdf" target="_blank" rel="noreferrer"><i class="fa-solid fa-feather"></i>upscrolled</a>
-        <a class="social" href="mailto:riley@l.esbian.xyz" target="_blank" rel="noreferrer"><i class="fa-solid fa-envelope"></i>email</a>
-      </div>
-    </section>
+    <audio id="audio" preload="metadata"></audio>
   </div>
 </div>
 
 <script>
-const DISCORD_ID="1142433636822548601";
-const LASTFM_USER="meowriley";
-const LASTFM_API_KEY="7f1b88cc50577aae53363f82cd7aebdb";
-const MC_USERS=["9om","prettydeadgirl","rcmix","2riley","Agonism","TwistedIdeals", "0ue", "Abductable", "Avened", "Avexi", "couraging", "hallowes", "HelloJuliet", "Diancite", "Galladite", "IWatchYuri", "kissthecurb", "LesbianLady", "luvfall", "MarkGom", "Misgenders", "overaffect", "Paycuts", "precursers", "Raiyas", "SofiaCamara", "lexijayde", "Varndean", "unborrowed", "virginians", "zoizox", "cutethighhighs", "Alterability"];
+const PLAYLIST = [
+  { title: "Till I Die", artist: "Ken Carson", src: "Till I Die.mp3", cover: "Till I Die.png" },
+  { title: "overseas", artist: "Ken Carson", src: "overseas.mp3", cover: "overseas.png" },
+  { title: "MM3", artist: "SoFaygo", src: "MM3.mp3", cover: "MM3.png" },
+  { title: "scissor knife sword", artist: "confetti", src: "scissor knife sword.mp3", cover: "scissor knife sword.png" },
+  { title: "Asphalt", artist: "Protect", src: "Asphalt.mp3", cover: "Asphalt.png" },
+  { title: "american baddie", artist: "sayso", src: "american baddie.mp3", cover: "american baddie.png" },
+  { title: "Caraphernelia", artist: "Pierce The Veil", src: "Caraphernelia.mp3", cover: "Caraphernelia.png" },
+  { title: "idk wtf", artist: "prettifun", src: "idk wtf.mp3", cover: "idk wtf.png" }
+];
 
-let npState={active:false,start:0,end:0};
+let trackIndex = 0;
 
-document.querySelectorAll(".tab").forEach(t=>{
-  t.onclick=()=>{
-    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-    t.classList.add("active");
-    document.getElementById(t.dataset.p).classList.add("active");
-  };
-});
-
-const accountsGrid=document.getElementById("accountsGrid");
-MC_USERS.forEach(u=>{
-  const a=document.createElement("a");
-  a.className="acct";
-  a.href=`https://namemc.com/profile/${encodeURIComponent(u)}`;
-  a.target="_blank";
-  a.rel="noreferrer";
-  a.innerHTML=`<img src="https://mc-heads.net/head/${encodeURIComponent(u)}/64" alt=""><div>${u}</div>`;
-  accountsGrid.appendChild(a);
-});
-
-function setSong(title,artist,cover,source){
-  document.getElementById("songTitle").textContent=title||"nothing playing";
-  document.getElementById("songArtist").textContent=artist||"—";
-  document.getElementById("cover").src=cover||"";
-  document.getElementById("songSource").textContent=source||"—";
+function pad(n){return String(n).padStart(2,'0')}
+function tickUTC(){
+  const d=new Date();
+  utc.textContent=`${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}`;
 }
+tickUTC(); setInterval(tickUTC,1000);
 
-async function fetchLanyard(){
-  const r=await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`,{cache:"no-store"});
-  if(!r.ok) throw new Error("lanyard");
-  const j=await r.json();
-  return j.data;
-}
+const typeText="16, UK", typeEl=document.getElementById("type");
+const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
+(async()=>{
+  while(true){
+    for(let i=1;i<=typeText.length;i++){ typeEl.textContent=typeText.slice(0,i); await sleep(80); }
+    await sleep(1200);
+    for(let i=typeText.length;i>=0;i--){ typeEl.textContent=typeText.slice(0,i); await sleep(50); }
+    await sleep(500);
+  }
+})();
 
-async function fetchLastfm(){
-  const url=`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(LASTFM_USER)}&api_key=${encodeURIComponent(LASTFM_API_KEY)}&format=json&limit=1`;
-  const r=await fetch(url,{cache:"no-store"});
-  if(!r.ok) throw new Error("lastfm");
-  const j=await r.json();
-  const t=j?.recenttracks?.track?.[0];
-  if(!t) throw new Error("no track");
-  const img=(t.image||[]).slice().reverse().find(x=>x["#text"])?.["#text"]||"";
-  const now=!!t?.["@attr"]?.nowplaying;
-  return {title:t.name,artist:t.artist?.["#text"]||"Unknown",cover:img,now};
-}
-
-async function refresh(){
-  try{
-    const d=await fetchLanyard();
-    const av=d?.discord_user?.avatar;
-    document.getElementById("pfp").src=av
-      ? `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${av}.png?size=512`
-      : `https://cdn.discordapp.com/embed/avatars/0.png`;
-
-    if(d?.spotify){
-      const sp=d.spotify;
-      setSong(sp.song,sp.artist,sp.album_art_url,"now playing");
-      npState.active=true;
-      npState.start=d.spotify.timestamps?.start || 0;
-      npState.end=d.spotify.timestamps?.end || 0;
-      return;
+fetch("https://api.lanyard.rest/v1/users/1142433636822548601",{cache:"no-store"})
+  .then(r=>r.json())
+  .then(j=>{
+    const u=j?.data?.discord_user;
+    if(!u) return;
+    name.textContent=u.global_name||u.username||"user";
+    if(u.avatar){
+      pfpImg.src=`https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=256`;
     }
+  })
+  .catch(()=>{});
 
-    const lf=await fetchLastfm();
-    setSong(lf.title,lf.artist,lf.cover, lf.now ? "now playing" : "recently listened too");
-    npState.active=false;
-    npState.start=0;
-    npState.end=0;
-  }catch{
-    setSong("status unavailable","—","", "—");
-    npState.active=false;
-    npState.start=0;
-    npState.end=0;
+const audio = document.getElementById("audio");
+const playBtn = document.getElementById("play");
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
+const seek = document.getElementById("seek");
+const curEl = document.getElementById("cur");
+const durEl = document.getElementById("dur");
+const titleEl = document.getElementById("trackTitle");
+const coverEl = document.getElementById("coverImg");
+
+audio.volume = 0.25;
+
+function fmt(s){
+  if(!isFinite(s)) return "0:00";
+  const m=Math.floor(s/60), r=Math.floor(s%60);
+  return `${m}:${String(r).padStart(2,"0")}`;
+}
+function setPlayIcon(playing){
+  playBtn.innerHTML = playing ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+}
+
+function loadTrack(i, autoplay=false){
+  if(!PLAYLIST.length) return;
+  trackIndex = (i + PLAYLIST.length) % PLAYLIST.length;
+  const t = PLAYLIST[trackIndex];
+  titleEl.textContent = t.artist && t.title ? `${t.title} - ${t.artist}` : (t.title || "song");
+  coverEl.src = t.cover || "cover.png";
+  curEl.textContent = "0:00";
+  durEl.textContent = "0:00";
+  seek.value = 0;
+  audio.src = t.src;
+  audio.load();
+  if(autoplay){
+    audio.play().catch(()=>{});
   }
 }
 
-function tickProgress(){
-  const bar=document.getElementById("progressBar");
-  if(!npState.active || !npState.start || !npState.end || npState.end<=npState.start){
-    bar.style.width="0%";
-    return;
-  }
-  const now=Date.now();
-  const pct=Math.max(0,Math.min(1,(now-npState.start)/(npState.end-npState.start)));
-  bar.style.width=(pct*100).toFixed(2)+"%";
-}
+prevBtn.addEventListener("click", ()=>{
+  const shouldAutoplay = !audio.paused;
+  loadTrack(trackIndex - 1, shouldAutoplay);
+});
 
-refresh();
-setInterval(refresh,1000);
-tickProgress();
-setInterval(tickProgress,1000);
+nextBtn.addEventListener("click", ()=>{
+  const shouldAutoplay = !audio.paused;
+  loadTrack(trackIndex + 1, shouldAutoplay);
+});
+
+playBtn.addEventListener("click", async ()=>{
+  try{
+    if(audio.paused) await audio.play();
+    else audio.pause();
+  }catch{}
+});
+
+audio.addEventListener("play", ()=>setPlayIcon(true));
+audio.addEventListener("pause", ()=>setPlayIcon(false));
+
+audio.addEventListener("loadedmetadata", ()=>{
+  durEl.textContent = fmt(audio.duration);
+});
+
+audio.addEventListener("timeupdate", ()=>{
+  curEl.textContent = fmt(audio.currentTime);
+  if(isFinite(audio.duration) && audio.duration > 0){
+    seek.value = Math.floor((audio.currentTime / audio.duration) * 1000);
+  }
+});
+
+seek.addEventListener("input", ()=>{
+  if(isFinite(audio.duration) && audio.duration > 0){
+    audio.currentTime = (seek.value/1000) * audio.duration;
+  }
+});
+
+audio.addEventListener("ended", ()=>{
+  loadTrack(trackIndex + 1, true);
+});
+
+loadTrack(0, false);
+
+enter.onclick = async ()=>{
+  enter.classList.add("exit");
+  setTimeout(()=>enter.remove(),500);
+  try{ await audio.play(); }catch{}
+};
 </script>
 
 </body>
