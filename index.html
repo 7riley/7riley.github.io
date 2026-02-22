@@ -9,40 +9,23 @@
 :root{--bg:#0a0a0a;--card:#111;--text:#f2f2f2;--muted:#888;--border:#1f1f1f;--hover:#1a1a1a}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text)}
-.container{width:100%;max-width:520px;padding:40px 30px;background:var(--card);border:1px solid var(--border)}
-.top{display:flex;justify-content:space-between;align-items:flex-start}
+.container{width:100%;max-width:520px;padding:50px 30px;background:var(--card);border:1px solid var(--border);text-align:center}
 h1{margin:0;font-size:32px;font-weight:600;letter-spacing:-.5px}
 .pronouns{margin-top:6px;color:var(--muted);font-size:15px}
-.now-playing{display:flex;gap:10px;max-width:230px;font-size:12px}
-.now-playing img{width:40px;height:40px;object-fit:cover;border:1px solid var(--border)}
-.track-info{display:flex;flex-direction:column;line-height:1.3}
-.track-info strong{font-size:13px;font-weight:600}
-.track-info span{color:var(--muted)}
-.links{margin-top:35px;display:flex;flex-direction:column;gap:14px}
+.links{margin-top:40px;display:flex;flex-direction:column;gap:14px}
 a{text-decoration:none;color:var(--text);padding:14px 18px;border:1px solid var(--border);background:#0e0e0e;display:flex;justify-content:space-between;align-items:center;transition:.15s}
 a:hover{background:var(--hover)}
 .left{display:flex;align-items:center;gap:12px}
 .left i{width:18px;text-align:center;opacity:.85;font-size:16px}
 .arrow{opacity:.5;transition:.15s}
 a:hover .arrow{transform:translateX(4px);opacity:1}
-footer{margin-top:35px;font-size:12px;color:#666}
+footer{margin-top:40px;font-size:12px;color:#666}
 </style>
 </head>
 <body>
 <div class="container">
-<div class="top">
-<div>
 <h1>Riley</h1>
 <div class="pronouns">she/her</div>
-</div>
-<div class="now-playing" id="nowPlaying" style="display:none">
-<img id="cover">
-<div class="track-info">
-<strong id="song"></strong>
-<span id="artist"></span>
-</div>
-</div>
-</div>
 <div class="links">
 <a href="https://github.com/rocketing" target="_blank">
 <div class="left"><i class="fa-brands fa-github"></i><span>GitHub</span></div>
@@ -61,21 +44,6 @@ footer{margin-top:35px;font-size:12px;color:#666}
 </div>
 <script>
 document.getElementById("year").textContent=new Date().getFullYear()
-const apiKey="936113a012fd5ac903c62c4a4160b6fd"
-const username="meowriley"
-async function getNowPlaying(){
-const url=`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${apiKey}&format=json&limit=1`
-const res=await fetch(url)
-const data=await res.json()
-const track=data.recenttracks.track[0]
-if(track){
-document.getElementById("song").textContent=track.name
-document.getElementById("artist").textContent=track.artist["#text"]
-document.getElementById("cover").src=track.image[2]["#text"]
-document.getElementById("nowPlaying").style.display="flex"
-}}
-getNowPlaying()
-setInterval(getNowPlaying,15000)
 </script>
 </body>
 </html>
